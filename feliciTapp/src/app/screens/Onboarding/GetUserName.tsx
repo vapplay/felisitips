@@ -39,7 +39,7 @@ export const GetUserName = ({ route }: any) => {
           <Text
             style={[
               theme.Onboarding.GetUserNameScreen.title.Styles,
-              { fontFamily: theme.defaultFont },
+              { fontFamily: theme.defaultFont, paddingHorizontal: 10 },
             ]}
           >
             {theme.Onboarding.GetUserNameScreen.title.text}

@@ -31,7 +31,7 @@ export const theme = {
   colors: {
     withe: "white",
     cream: "white",
-    btn: "rgba(17, 17, 17, 0.84)",
+    btn: "#009FE3",
     btn_icon: "rgb(241, 241, 241)",
     title: "rgb(17, 17, 17)",
   },

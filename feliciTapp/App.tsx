@@ -13,14 +13,19 @@ import { useCallback } from "react";
 import { useFonts } from "expo-font";
 import { View } from "react-native";
 
+// paper
+import { PaperProvider } from "react-native-paper";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+// react query
+const Client = new QueryClient();
 
 export default function App() {
   const [fontsLoaded, fontError] = useFonts({
     "Abel-Regular": require("./assets/fonts/Abel-Regular.ttf"),
     "Academic M54": require("./assets/fonts/Academic M54.ttf"),
     "Acids!": require("./assets/fonts/Acids!.otf"),
-    "Raleway-Light":require("./assets/fonts/Raleway-Light.ttf"),
-    "Raleway-Medium":require("./assets/fonts/Raleway-Medium.ttf"),
+    "Raleway-Light": require("./assets/fonts/Raleway-Light.ttf"),
+    "Raleway-Medium": require("./assets/fonts/Raleway-Medium.ttf"),
     "Aileron-BlackItalic": require("./assets/fonts/Aileron-BlackItalic.otf"),
     "Aileron-Black": require("./assets/fonts/Aileron-Black.otf"),
     "Aileron-BoldItalic": require("./assets/fonts/Aileron-BoldItalic.otf"),
@@ -699,8 +704,12 @@ export default function App() {
   return (
     <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
       <Provider store={store}>
-        <NavigationProvider />
-        <StatusBar style="auto" />
+        <PaperProvider>
+          <QueryClientProvider client={Client}>
+            <NavigationProvider />
+            <StatusBar style="auto" />
+          </QueryClientProvider>
+        </PaperProvider>
       </Provider>
     </View>
   );

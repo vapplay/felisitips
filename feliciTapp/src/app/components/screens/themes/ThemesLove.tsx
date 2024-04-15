@@ -29,10 +29,8 @@ export const ThemesLove = ({ navigation }: any) => {
 
   const dispatch = useDispatch();
 
-  const action = (item:any) => {
-    dispatch(
-      changePhrase(item)
-    );
+  const action = (item: any) => {
+    dispatch(changePhrase(item));
     navigation.goBack();
   };
 
@@ -70,13 +68,9 @@ export const ThemesLove = ({ navigation }: any) => {
               "MMMM Do YYYY, h:mm:ss a"
             );
 
-        
             return (
               <TouchableOpacity
-                onPress={() => action({
-                  phrase:item?.phrase,
-                  id:item?.id
-                })}
+                onPress={() => action(item)}
                 key={index}
                 style={styles.itemContainer}
               >

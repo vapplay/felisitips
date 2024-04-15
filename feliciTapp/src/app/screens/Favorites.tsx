@@ -1,13 +1,21 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
-import { CustomHeader, CustomScreen, ThemesLove } from "../components";
+import {
+  CustomAnimateLottieIcon,
+  CustomHeader,
+  CustomScreen,
+  ThemesLove,
+} from "../components";
 import { ThemeType } from "../types/types";
 
 export const Favorites = ({ route, navigation }: any) => {
   const { theme, userName }: ThemeType = route?.params;
   return (
     <CustomScreen theme={theme} modal>
-      <CustomHeader title={"Favorito"} theme={theme} />
+      <View style={{ gap: 10 }}>
+        <CustomHeader title={"Frases favoritas"} theme={theme} />
+        <CustomAnimateLottieIcon />
+      </View>
 
       <View style={styles.container}>
         <ThemesLove navigation={navigation} theme={theme} />

@@ -9,7 +9,7 @@ import {
 import React, { memo } from "react";
 
 interface CustomModalProps {
-  isOpen?: any;
+  isOpen?: Boolean;
   onClose?: () => void;
   children: JSX.Element | JSX.Element[];
 }
@@ -21,7 +21,7 @@ const CustomModalBottom: React.FC<CustomModalProps> = ({
   return (
     <View style={styles.container}>
       <Modal
-        visible={isOpen}
+        visible={isOpen as any}
         animationType="fade"
         transparent={true}
         onRequestClose={onClose}

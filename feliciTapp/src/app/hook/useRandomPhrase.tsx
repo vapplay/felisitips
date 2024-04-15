@@ -1,23 +1,37 @@
-import React, { useEffect } from "react";
-import { phrase } from "../db/phrases"; // Corrected import statement
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { changePhrase, changePhraseIndex } from "../redux/changeThemeSlice";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
 export const useRandomPhrase = () => {
-  const dispatch = useDispatch();
-  const {
-   randomPhrase, phraseIndex 
-  } = useSelector((state: any) => state.changeTheme);
+  const getData = async () => {
+    const { data } = await axios.get(
+      "https://felisitips-back.onrender.com/get-phrase"
+    );
+    return data;
+  };
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["todos"],
+    queryFn: getData,
+  });
 
-  const nexPhras = phrase[phraseIndex];
+  const dispatch = useDispatch();
+  const { randomPhrase, phraseIndex } = useSelector(
+    (state: any) => state.changeTheme
+  );
+
   const newPhrase = () => {
-    dispatch(changePhrase(nexPhras));
-    dispatch(changePhraseIndex());
+    if (!isLoading && !error) {
+      const nexPhras = data[phraseIndex];
+      dispatch(changePhrase(nexPhras));
+      dispatch(changePhraseIndex());
+    }
   };
 
   useEffect(() => {
     newPhrase();
-  }, []);
+  }, [isLoading]);
 
   return { randomPhrase };
 };

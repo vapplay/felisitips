@@ -28,6 +28,10 @@ import {
   FontAwesome,
   MaterialIcons,
   Feather,
+  FontAwesome5,
+  Ionicons,
+  MaterialCommunityIcons,
+  Octicons,
 } from "@expo/vector-icons";
 
 import { ThemeType } from "../types/types";
@@ -39,7 +43,8 @@ type actionsType = (type?: number) => void;
 
 const items_options = (
   openModal: actionsType,
-  handleOpenModal2: actionsType
+  handleOpenModal2: actionsType,
+  handleDedicate: any
 ) => [
   {
     name: "Colores",
@@ -51,14 +56,15 @@ const items_options = (
       openModal(1);
     },
   },
+
   {
-    name: "Tipografía",
+    name: "Dedicar",
     icon: {
-      component: FontAwesome,
-      name: "font",
+      component: Ionicons,
+      name: "gift-outline",
     },
     action: () => {
-      openModal(2);
+      handleDedicate();
     },
   },
   {
@@ -102,9 +108,9 @@ const ShareScreen = ({ route, navigation }: any) => {
   const [modalType, setModalType] = useState(1);
   const [openModal, setOpenModal] = useState(false);
   const [openModal2, setOpenModal2] = useState(false);
+  const [openModal3, setOpenModal3] = useState(false);
   const [onChangeImage, setOnChangeImage] = useState<string | null>(null);
-  const [dedicate, setDedicate] = useState(null);
-  const [selectColor, setSelectColor] = useState(null);
+  const [selectColor, setSelectColor] = useState("rgb(255, 255, 255)");
   const [fontSize, setFontSize] = useState(20);
   const [fontSizeWeight, setFontSizeWeight] = useState("100");
   const [SelectFont, setOnSelectFont] = useState(theme.defaultFont);
@@ -192,11 +198,25 @@ const ShareScreen = ({ route, navigation }: any) => {
               source={{ uri: backgroundImage }}
             >
               <View>
-                <View style={{ marginTop: 50 }}>
+                <View
+                  style={{
+                    marginTop: onChangeImage ? 50 : 200,
+                    backgroundColor: "rgba(10, 10, 10, 0.42)",
+                    width: "97%",
+                    alignSelf: "center",
+                    borderRadius: 10,
+                    paddingHorizontal: 5,
+                    paddingVertical: 7,
+                  }}
+                >
                   <Text
                     style={[
                       styles.textPhrase,
-                      { fontFamily: theme.defaultFont },
+                      {
+                        fontFamily: SelectFont,
+                        color: selectColor,
+                        fontSize: fontSize,
+                      },
                     ]}
                   >{`${"hola"} ${
                     name !== "" ? name : userName
@@ -204,14 +224,18 @@ const ShareScreen = ({ route, navigation }: any) => {
                   <Text
                     style={[
                       styles.textPhrase,
-                      { fontFamily: theme.defaultFont },
+                      {
+                        fontFamily: SelectFont,
+                        color: selectColor,
+                        fontSize: fontSize,
+                      },
                     ]}
                   >{`${randomPhrase.phrase}`}</Text>
                 </View>
 
                 <View style={{ alignSelf: "center" }}>
                   {onChangeImage && (
-                    <View style={{ width: 320, height: 250, marginTop: 60 }}>
+                    <View style={{ width: 320, height: 255, marginTop: 60 }}>
                       <Image
                         style={{
                           width: "100%",
@@ -225,11 +249,33 @@ const ShareScreen = ({ route, navigation }: any) => {
                 </View>
               </View>
 
-              <View style={styles.logo}>
-                <Image
-                  style={{ width: "100%", height: "100%" }}
-                  source={require("../assets/image/Logo-Icono_felicitips-500x500.png")}
-                />
+              <View
+                style={{
+                  position: "absolute",
+                  bottom: 0,
+                  alignSelf: "center",
+                  marginBottom: 30,
+                  alignItems: "center",
+                  gap: 5,
+                }}
+              >
+                <View style={styles.logo}>
+                  <Image
+                    style={{ width: "100%", height: "100%" }}
+                    source={require("../assets/image/Logo-Icono_felicitips-500x500.png")}
+                  />
+                </View>
+                <Text
+                  style={{
+                    color: "white",
+                    fontWeight: "600",
+                    backgroundColor: "rgba(0, 0, 0, 0.45)",
+                    borderRadius: 10,
+                    padding: 4,
+                  }}
+                >
+                  Felicitips
+                </Text>
               </View>
             </ImageBackground>
           </ViewShot>
@@ -244,23 +290,25 @@ const ShareScreen = ({ route, navigation }: any) => {
               gap: 50,
             }}
           >
-            {items_options(handleOpenModal, handleOpenModal2).map(
-              (Item, index) => {
-                return (
-                  <TouchableOpacity
-                    key={index}
-                    onPress={() => Item.action()}
-                    style={{ alignItems: "center" }}
-                  >
-                    <Item.icon.component
-                      name={Item.icon?.name as any}
-                      size={24}
-                    />
-                    {Item.name && <Text>{Item.name}</Text>}
-                  </TouchableOpacity>
-                );
-              }
-            )}
+            {items_options(
+              handleOpenModal,
+              handleOpenModal2,
+              handleDedicate
+            ).map((Item, index) => {
+              return (
+                <TouchableOpacity
+                  key={index}
+                  onPress={() => Item.action()}
+                  style={{ alignItems: "center" }}
+                >
+                  <Item.icon.component
+                    name={Item.icon?.name as any}
+                    size={24}
+                  />
+                  {Item.name && <Text>{Item.name}</Text>}
+                </TouchableOpacity>
+              );
+            })}
           </View>
           <CustomNexBtn action={Share} text="compartir" theme={theme} />
         </View>
@@ -290,16 +338,38 @@ const ShareScreen = ({ route, navigation }: any) => {
         <View
           style={{ flexDirection: "row", justifyContent: "center", gap: 50 }}
         >
-          <TouchableOpacity style={styles.moreItems} onPress={handleDedicate}>
-            <Feather name="user-plus" size={24} color="black" />
-            <Text>Dedicar</Text>
+          <TouchableOpacity
+            style={styles.moreItems}
+            onPress={() => handleOpenModal(2)}
+          >
+            <Octicons name="typography" size={35} color="black" />
+
+            <Text style={{ textAlign: "center" }}>fuente</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.moreItems}>
-            <FontAwesome name="font" size={24} color="black" />
-            <Text>texto</Text>
+          <TouchableOpacity
+            style={styles.moreItems}
+            onPress={() => setOpenModal3(true)}
+          >
+            <MaterialCommunityIcons
+              name="format-font-size-increase"
+              size={35}
+              color="black"
+            />
+            <Text style={{ textAlign: "center" }}>tamaño</Text>
           </TouchableOpacity>
         </View>
+      </CustomModalBottom>
+
+      <CustomModalBottom
+        isOpen={openModal3}
+        onClose={() => setOpenModal3(false)}
+      >
+        <FontStyles
+          theme={theme}
+          onChange={(e) => setFontSize(e)}
+          onChangeWeight={(e) => setFontSizeWeight(e)}
+        />
       </CustomModalBottom>
     </CustomScreen>
   );
@@ -312,10 +382,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   logo: {
-    position: "absolute",
-    bottom: 0,
-    alignSelf: "center",
-    marginBottom: 40,
     width: 70,
     height: 70,
   },
@@ -367,9 +433,5 @@ const styles = StyleSheet.create({
 });
 
 {
-  /*       <FontStyles
-          theme={theme}
-          onChange={(e) => setFontSize(e)}
-          onChangeWeight={(e) => setFontSizeWeight(e)}
-        /> */
+  /*   */
 }

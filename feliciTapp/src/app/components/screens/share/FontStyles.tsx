@@ -12,7 +12,7 @@ const FontStyles = ({
   onChange: (e: number) => void;
   onChangeWeight: (e: string) => void;
 }) => {
-  const [fontSize, setFontSize] = useState<number>(17);
+  const [fontSize, setFontSize] = useState<number>(16);
   const [fontWeight, setFontWeight] = useState<string>("100");
   const handleFontSizeChange = (value: number) => {
     onChange && onChange(value);
@@ -34,8 +34,8 @@ const FontStyles = ({
           </Text>
           <Slider
             style={{ width: "100%", height: 40 }}
-            minimumValue={20}
-            maximumValue={40}
+            minimumValue={16}
+            maximumValue={30}
             minimumTrackTintColor="rgb(22, 22, 22)"
             maximumTrackTintColor="#000000"
             value={fontSize}

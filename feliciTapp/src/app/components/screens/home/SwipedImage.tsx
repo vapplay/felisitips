@@ -1,8 +1,6 @@
 import { StyleSheet, Text, View, Dimensions, Animated } from "react-native";
 import React, { memo } from "react";
 
-
-
 const TAMANO_CUADRADO = 200; // Ajusta el tamaño del cuadrado aquí
 const Epacing = {
   spacing: 25,
@@ -33,7 +31,7 @@ export const SwipedImage = memo(() => {
         snapToInterval={TAMANO_CUADRADO}
         decelerationRate={0}
         scrollEventThrottle={16}
-        data={[1, 2, 3, 4, 5, 6, 7, 8]}
+        data={[1, 2, 3, 4, 5, 6, 7]}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item, index }) => {
           const position = Animated.subtract(index * TAMANO_CUADRADO, scrollX);
@@ -58,13 +56,27 @@ export const SwipedImage = memo(() => {
                 width: TAMANO_CUADRADO,
                 height: TAMANO_CUADRADO,
                 borderRadius: 10,
-                backgroundColor: "red",
+                backgroundColor: "rgba(252, 232, 16, 0.51)",
                 alignItems: "center",
                 justifyContent: "center",
                 opacity: opacityValue,
                 transform: [{ scale: scaleValue }],
               }}
-            ></Animated.View>
+            >
+              <View>
+                <Text
+                  style={{
+                    color: "white",
+                    fontWeight: "600",
+                    fontSize: 17,
+                    paddingHorizontal: 10,
+                    textAlign: "center",
+                  }}
+                >
+                  Agrega una imagen feliz
+                </Text>
+              </View>
+            </Animated.View>
           );
         }}
       />

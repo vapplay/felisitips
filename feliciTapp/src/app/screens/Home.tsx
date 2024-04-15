@@ -5,8 +5,12 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useEffect, useState } from "react";
-import { CustomScreen, SwipedImage } from "../components";
+import React from "react";
+import {
+  CustomAnimateLottieIcon,
+  CustomScreen,
+  SwipedImage,
+} from "../components";
 import { ThemeType } from "../types/types";
 import constants from "expo-constants";
 
@@ -15,10 +19,8 @@ import { BottomIcons } from "./util/BottomIcons";
 import { addFavoritePhrase } from "../redux/FavoritePhraseSlice";
 import Toast from "react-native-toast-message";
 
-import * as Notifications from "expo-notifications";
-import { useRandomPhrase } from "../hook";
-import LottieView from "lottie-react-native";
-import { useFocusEffect, useIsFocused } from "@react-navigation/native";
+//  icons
+import { Feather } from "@expo/vector-icons";
 
 export const Home = ({ route, navigation }: any) => {
   const {
@@ -29,10 +31,6 @@ export const Home = ({ route, navigation }: any) => {
   const iconColor = theme.colors.btn_icon;
 
   const disPatcher = useDispatch();
-  const buttons = [
-    { buttonTitle: "Botón 1", identifier: "#000000", options: {} },
-    { buttonTitle: "Botón 2", identifier: "#FFFFFF", options: {} },
-  ];
 
   const captureScreen = () => {
     navigation.navigate("ShareScreen");
@@ -40,7 +38,8 @@ export const Home = ({ route, navigation }: any) => {
 
   const handleFavorite = () => {
     try {
-      disPatcher(addFavoritePhrase(randomPhrase.phrase));
+      disPatcher(addFavoritePhrase(randomPhrase));
+
       Toast.show({
         type: "success",
         text2: "Agregado a favoritos",
@@ -48,71 +47,21 @@ export const Home = ({ route, navigation }: any) => {
     } catch (error) {}
   };
 
-  useEffect(() => {
-    const sendNotification = async () => {
-      const { randomPhrase } = useRandomPhrase();
-      await Notifications.setNotificationCategoryAsync("hola", buttons);
-      await Notifications.scheduleNotificationAsync({
-        content: {
-          title: userName + " Recuerda",
-          body: randomPhrase?.phrase,
-        },
-        trigger: {
-          seconds: 60,
-          repeats: true,
-        },
-      });
-    };
-
-    sendNotification();
-
-    const intervalId = setInterval(() => {
-      sendNotification();
-    }, 60000);
-
-    return () => clearInterval(intervalId);
-  }, []); // Dependencia de useEffect
-
-  const [lottieNumber, setLottieNumber] = useState(0);
-  const lottieRandom = [
-    <LottieView
-      source={require("../animations/LOTIE1V2.json")}
-      style={{ width: 64, height: 64 }}
-      autoPlay
-      loop
-    />,
-    <LottieView
-      source={require("../animations/LOTIE2V2.json")}
-      style={{ width: 64, height: 64 }}
-      autoPlay
-      loop
-    />,
-
-    <LottieView
-      source={require("../animations/LOTIE3V2.json")}
-      style={{ width: 64, height: 64 }}
-      autoPlay
-      loop
-    />,
-  ];
-
-  const focus = useIsFocused();
-
-  useEffect(() => {
-    console.log(lottieNumber);
-    if (!focus) {
-      if (lottieNumber === lottieRandom.length) {
-        setLottieNumber(0);
-      } else {
-        setLottieNumber((prev) => prev + 1);
-      }
-    }
-  }, [focus]);
-
   return (
     <CustomScreen theme={theme}>
       <ImageBackground source={{ uri: backgroundImage }} style={styles.body}>
         <View style={styles.heder}>
+          <TouchableOpacity
+            style={[
+              {
+                backgroundColor: theme.colors.btn,
+                padding: 5,
+                borderRadius: 10,
+              },
+            ]}
+          >
+            <Feather name="user" size={20} color={"#ffffff"} />
+          </TouchableOpacity>
           <Text
             style={[
               styles.name,
@@ -126,13 +75,23 @@ export const Home = ({ route, navigation }: any) => {
           </Text>
         </View>
 
-        <View>
+        <View style={styles.phraseContainer}>
           <Text
-            style={[styles.textPhrase, { fontFamily: theme.defaultFont }]}
+            style={[
+              styles.textPhrase,
+              { fontFamily: theme.defaultFont, paddingHorizontal: 3 },
+            ]}
           >{`${"hola"} ${userName}, hoy recuerda que... \n`}</Text>
           <Text
             style={[styles.textPhrase, { fontFamily: theme.defaultFont }]}
           >{`${randomPhrase.phrase}`}</Text>
+
+          <Text
+            style={[
+              styles.textPhrase,
+              { fontFamily: theme.defaultFont, marginTop: 10 },
+            ]}
+          >{`- ${randomPhrase.by} -`}</Text>
         </View>
 
         <View>
@@ -167,10 +126,7 @@ export const Home = ({ route, navigation }: any) => {
             })}
           </View>
 
-          <View style={{ alignSelf: "center" }}>
-            {lottieRandom[lottieNumber]}
-          </View>
-
+          <CustomAnimateLottieIcon />
           <View style={styles.itemsThemes}>
             {BottomIcons(navigation, theme).bloque_1.map((item, index) => {
               return (
@@ -206,6 +162,7 @@ const styles = StyleSheet.create({
   heder: {
     flexDirection: "row",
     margin: constants.statusBarHeight + 10,
+    gap: 17,
   },
   bottom: {
     width: "100%",
@@ -235,5 +192,14 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "rgb(255, 255, 255)",
     fontSize: 20,
+  },
+
+  phraseContainer: {
+    backgroundColor: "rgba(10, 10, 10, 0.33)",
+    width: "97%",
+    alignSelf: "center",
+    borderRadius: 10,
+    paddingHorizontal: 5,
+    paddingVertical: 4,
   },
 });
