@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { changePhrase, changePhraseIndex } from "../redux/changeThemeSlice";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { useLocalNotifications } from "./useLocalNotifications";
 
 export const useRandomPhrase = () => {
   const getData = async () => {
@@ -11,6 +12,7 @@ export const useRandomPhrase = () => {
     );
     return data;
   };
+
   const { data, isLoading, error } = useQuery({
     queryKey: ["todos"],
     queryFn: getData,

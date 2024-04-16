@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { ThemeType } from "../types/types";
 import Toast from "react-native-toast-message";
 import { toastConfig } from "../theme/themeConfig";
-import { useRandomPhrase } from "../hook";
+import { useLocalNotifications, useRandomPhrase } from "../hook";
 
 const Stack = createStackNavigator();
 

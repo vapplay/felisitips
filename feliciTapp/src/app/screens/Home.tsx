@@ -21,6 +21,7 @@ import Toast from "react-native-toast-message";
 
 //  icons
 import { Feather } from "@expo/vector-icons";
+import { useLocalNotifications } from "../hook";
 
 export const Home = ({ route, navigation }: any) => {
   const {
@@ -30,6 +31,7 @@ export const Home = ({ route, navigation }: any) => {
   const { backgroundImage } = useSelector((state: any) => state.changeTheme);
   const iconColor = theme.colors.btn_icon;
 
+  useLocalNotifications();
   const disPatcher = useDispatch();
 
   const captureScreen = () => {
@@ -84,14 +86,14 @@ export const Home = ({ route, navigation }: any) => {
           >{`${"hola"} ${userName}, hoy recuerda que... \n`}</Text>
           <Text
             style={[styles.textPhrase, { fontFamily: theme.defaultFont }]}
-          >{`${randomPhrase.phrase}`}</Text>
+          >{`${randomPhrase?.phrase}`}</Text>
 
           <Text
             style={[
               styles.textPhrase,
               { fontFamily: theme.defaultFont, marginTop: 10 },
             ]}
-          >{`- ${randomPhrase.by} -`}</Text>
+          >{`- ${randomPhrase?.by} -`}</Text>
         </View>
 
         <View>
