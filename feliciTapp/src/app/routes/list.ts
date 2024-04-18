@@ -10,7 +10,9 @@ import {
   Themes,
   ShareScreen,
   DedIcateScreen,
+  WebView,
 } from "../screens";
+
 
 const modalScreeConfig: StackNavigationOptions = {
   gestureDirection: "vertical",
@@ -63,6 +65,11 @@ const routeList = [
   {
     name: "Dedicate",
     component: DedIcateScreen,
+    config: { ...modalScreeConfig },
+  },
+  {
+    name: "web",
+    component: WebView,
     config: { ...modalScreeConfig },
   },
 ];

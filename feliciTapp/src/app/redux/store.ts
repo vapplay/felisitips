@@ -5,13 +5,15 @@ import userInfoSlice from "./UserInfoSlice";
 import changeThemeSlice from "./changeThemeSlice";
 import FavoritePhraseSlice from "./FavoritePhraseSlice";
 import DedicateSlice from "./DedicateSlice";
+import swiperSlice from "./useImageStorage";
 export default configureStore({
   reducer: {
     onboarding: onboardingSlice,
     theme: themeSlice,
     userInfo: userInfoSlice,
     changeTheme: changeThemeSlice,
-    FavoritePhrases:FavoritePhraseSlice,
-    Dedicate:DedicateSlice
+    FavoritePhrases: FavoritePhraseSlice,
+    Dedicate: DedicateSlice,
+    swiperSlice,
   },
 });

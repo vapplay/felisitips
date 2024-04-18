@@ -9,7 +9,10 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@expo/html-elements": "^0.9.1",
     "@expo/vector-icons": "^14.0.0",
+    "@gorhom/bottom-sheet": "^4",
+    "@react-native-async-storage/async-storage": "1.21.0",
     "@react-native-community/slider": "4.4.2",
     "@react-navigation/native": "^6.1.17",
     "@react-navigation/stack": "^6.3.29",
@@ -22,6 +25,7 @@
     "expo-file-system": "~16.0.8",
     "expo-image-picker": "~14.7.1",
     "expo-notifications": "~0.27.6",
+    "expo-permissions": "^14.4.0",
     "expo-screen-capture": "~5.8.1",
     "expo-sharing": "^11.10.0",
     "expo-splash-screen": "^0.26.4",
@@ -38,6 +42,7 @@
     "react-native-screens": "~3.29.0",
     "react-native-toast-message": "^2.2.0",
     "react-native-view-shot": "^3.8.0",
+    "react-native-webview": "13.6.4",
     "react-redux": "^9.1.0",
     "reanimated-color-picker": "^3.0.3"
   },

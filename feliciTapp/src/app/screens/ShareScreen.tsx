@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { Fragment, useEffect, useMemo, useRef, useState } from "react";
 import {
   ImageBackground,
   StyleSheet,
@@ -7,6 +7,7 @@ import {
   Animated,
   TouchableOpacity,
   Image,
+  FlatList,
 } from "react-native";
 import {
   ColoPiker,
@@ -33,6 +34,8 @@ import {
   MaterialCommunityIcons,
   Octicons,
 } from "@expo/vector-icons";
+
+import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 
 import { ThemeType } from "../types/types";
 import ViewShot from "react-native-view-shot";
@@ -97,6 +100,7 @@ const ShareScreen = ({ route, navigation }: any) => {
   } = useSelector((state: any) => state);
 
   const { backgroundImage } = useSelector((state: any) => state.changeTheme);
+  const imgArray = useSelector((state: any) => state.swiperSlice.images);
   const ref = useRef<any>();
 
   const Share = () => {
@@ -104,6 +108,8 @@ const ShareScreen = ({ route, navigation }: any) => {
       Sharing.shareAsync(uri);
     });
   };
+  const bottomSheetRef = useRef<BottomSheet>(null);
+  const snapPoints = useMemo(() => ["40%", "70%"], []);
 
   const [modalType, setModalType] = useState(1);
   const [openModal, setOpenModal] = useState(false);
@@ -114,6 +120,8 @@ const ShareScreen = ({ route, navigation }: any) => {
   const [fontSize, setFontSize] = useState(20);
   const [fontSizeWeight, setFontSizeWeight] = useState("100");
   const [SelectFont, setOnSelectFont] = useState(theme.defaultFont);
+
+  const [openSheet, setOpenSheet] = useState(false);
 
   const onSelectColor = ({ hex }: any) => {
     setSelectColor(hex);
@@ -200,7 +208,7 @@ const ShareScreen = ({ route, navigation }: any) => {
               <View>
                 <View
                   style={{
-                    marginTop: onChangeImage ? 50 : 200,
+                    marginTop: onChangeImage ? 30 : 200,
                     backgroundColor: "rgba(10, 10, 10, 0.42)",
                     width: "97%",
                     alignSelf: "center",
@@ -235,7 +243,7 @@ const ShareScreen = ({ route, navigation }: any) => {
 
                 <View style={{ alignSelf: "center" }}>
                   {onChangeImage && (
-                    <View style={{ width: 320, height: 255, marginTop: 60 }}>
+                    <View style={{ width: 320, height: 255, marginTop: 40 }}>
                       <Image
                         style={{
                           width: "100%",
@@ -325,6 +333,9 @@ const ShareScreen = ({ route, navigation }: any) => {
           <Typography onChange={(e) => onSelectFont(e)} />
         ) : (
           <PikerImage
+            closeModal={handleCloseModal}
+            openSheet={(open) => setOpenSheet(open)}
+            isSharing
             onChange={(e) => {
               setOnChangeImage(e);
               handleCloseModal();
@@ -371,6 +382,47 @@ const ShareScreen = ({ route, navigation }: any) => {
           onChangeWeight={(e) => setFontSizeWeight(e)}
         />
       </CustomModalBottom>
+      <Fragment>
+        {openSheet && (
+          <View style={styles.container11}>
+            <BottomSheet
+              ref={bottomSheetRef}
+              snapPoints={snapPoints}
+              enablePanDownToClose
+              onClose={() => setOpenSheet(false)}
+            >
+              <BottomSheetView style={styles.contentContainer}>
+                <FlatList
+                  data={imgArray}
+                  numColumns={3}
+                  contentContainerStyle={{ gap: 6 }}
+                  columnWrapperStyle={{
+                    gap: 6,
+                  }}
+                  renderItem={({ item }) => {
+                    return (
+                      <TouchableOpacity
+                        style={{ width: 120, height: 120 }}
+                        onPress={() => {
+                          setOnChangeImage(item);
+                          setOpenSheet(false);
+                        }}
+                      >
+                        {item !== 1 && (
+                          <Image
+                            source={{ uri: item }}
+                            style={styles.sheetImages}
+                          />
+                        )}
+                      </TouchableOpacity>
+                    );
+                  }}
+                />
+              </BottomSheetView>
+            </BottomSheet>
+          </View>
+        )}
+      </Fragment>
     </CustomScreen>
   );
 };
@@ -430,8 +482,21 @@ const styles = StyleSheet.create({
     padding: 14,
     backgroundColor: "rgba(169, 169, 169, 0.05)",
   },
-});
 
-{
-  /*   */
-}
+  container11: {
+    width: "100%",
+    height: "100%",
+    padding: 24,
+    backgroundColor: "rgba(0, 0, 0, 0.41)",
+    position: "absolute",
+  },
+  contentContainer: {
+    flex: 1,
+    alignItems: "center",
+  },
+  sheetImages: {
+    width: "100%",
+    height: "100%",
+    borderRadius: 5,
+  },
+});

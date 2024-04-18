@@ -20,8 +20,7 @@ export const theme = {
   dark: false,
 
   home: {
-    backgroundImage:
-      "https://img.freepik.com/foto-gratis/pequeno-tronco-rio-selva-tropical_1150-13681.jpg?t=st=1711070500~exp=1711074100~hmac=ff0712ccfbc40a75206b8a76389f2c011c8c664d083923373f1efd6c80df0fa5&w=740", /// <==  aqui ba la url de la imagen inicial
+    backgroundImage:"https://lh3.googleusercontent.com/u/0/drive-viewer/AKGpihYvJe6P244kjpx0-y-g7ZSAA_BlW4F_XDKWB56T57PkBBu5Yeoa_Os6L-vj61OjPsHhHu07K2YnEbFY7RFMi_evjvwCPwZkLfk=w1920-h955-rw-v1", /// <==  aqui ba la url de la imagen inicial
   },
 
   dedicate:{

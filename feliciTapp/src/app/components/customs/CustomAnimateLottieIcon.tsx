@@ -32,12 +32,14 @@ const CustomAnimateLottieIcon = () => {
   // Efecto para cambiar la animación cuando el componente pierde el foco
   useEffect(() => {
     if (!isFocused) {
-      changeAnimation(); 
+      changeAnimation();
     }
   }, [isFocused]);
 
   return (
-    <View style={{ alignSelf: "center" }}>
+    <View
+      style={{ alignSelf: "center", shadowColor: "rgb(0, 0, 0)", elevation: 2  }}
+    >
       {animations.length > 0 && (
         <LottieView
           source={animations[animationIndex]}

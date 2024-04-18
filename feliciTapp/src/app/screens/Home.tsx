@@ -5,9 +5,10 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import {
   CustomAnimateLottieIcon,
+  CustomInfoModal,
   CustomScreen,
   SwipedImage,
 } from "../components";
@@ -30,6 +31,8 @@ export const Home = ({ route, navigation }: any) => {
   const { theme, userName }: ThemeType = route?.params;
   const { backgroundImage } = useSelector((state: any) => state.changeTheme);
   const iconColor = theme.colors.btn_icon;
+
+  const [opeTopMenu, setOpeTopMenu] = useState(false);
 
   useLocalNotifications();
   const disPatcher = useDispatch();
@@ -54,6 +57,7 @@ export const Home = ({ route, navigation }: any) => {
       <ImageBackground source={{ uri: backgroundImage }} style={styles.body}>
         <View style={styles.heder}>
           <TouchableOpacity
+            onPress={() => setOpeTopMenu((prev) => !prev)}
             style={[
               {
                 backgroundColor: theme.colors.btn,
@@ -64,6 +68,13 @@ export const Home = ({ route, navigation }: any) => {
           >
             <Feather name="user" size={20} color={"#ffffff"} />
           </TouchableOpacity>
+
+          {opeTopMenu && (
+            <View style={{ position: "absolute", marginTop: 40, zIndex: 2 }}>
+              <CustomInfoModal />
+            </View>
+          )}
+
           <Text
             style={[
               styles.name,
@@ -73,7 +84,7 @@ export const Home = ({ route, navigation }: any) => {
               },
             ]}
           >
-            {"Hola'   " + userName}
+            {"Hola " + userName + " !"}
           </Text>
         </View>
 

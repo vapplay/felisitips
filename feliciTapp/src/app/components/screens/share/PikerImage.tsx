@@ -1,16 +1,28 @@
-import React from "react";
+import React, { useMemo, useRef, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { FontAwesome } from "@expo/vector-icons";
+import { FontAwesome, FontAwesome6 } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 
 type FunctionType = () => void;
 
-const items = (camera: FunctionType, files: FunctionType) => [
+const items = (
+  camera: FunctionType,
+  files: FunctionType,
+  isSharing: boolean,
+  openSheet: (even: boolean) => void
+) => [
   {
     name: "cámara",
     icon: <FontAwesome name="camera" size={24} color="black" />,
     action: camera,
   },
+
+  isSharing && {
+    name: "carrusel",
+    icon: <FontAwesome6 name="window-restore" size={24} color="black" />,
+    action: openSheet,
+  },
+
   {
     name: "archivos",
     icon: <FontAwesome name="folder" size={24} color="black" />,
@@ -18,7 +30,17 @@ const items = (camera: FunctionType, files: FunctionType) => [
   },
 ];
 
-const PikerImage = ({ onChange }: { onChange: (e: string) => void }) => {
+const PikerImage = ({
+  onChange,
+  isSharing = false,
+  openSheet,
+  closeModal,
+}: {
+  onChange: (e: string) => void;
+  isSharing?: boolean;
+  openSheet: (even: boolean) => void;
+  closeModal: () => void;
+}) => {
   const launchFiles = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (status !== "granted") {
@@ -53,24 +75,41 @@ const PikerImage = ({ onChange }: { onChange: (e: string) => void }) => {
     }
   };
 
+  const handleOpenSheet = () => {
+    openSheet && openSheet(true);
+    closeModal();
+  };
+
   return (
     <View style={{ flexDirection: "row", gap: 50, paddingTop: 20 }}>
-      {items(launchCamera, launchFiles).map((e, i) => {
-        return (
-          <TouchableOpacity
-            style={{ alignItems: "center", gap: 5 }}
-            key={i}
-            onPress={e.action}
-          >
-            {e.icon}
-            <Text>{e.name}</Text>
-          </TouchableOpacity>
-        );
-      })}
+      {items(launchCamera, launchFiles, isSharing, handleOpenSheet).map(
+        (e, i) => {
+          return (
+            <TouchableOpacity
+              style={{ alignItems: "center", gap: 5 }}
+              key={i}
+              onPress={e.action}
+            >
+              {e.icon}
+              <Text>{e.name}</Text>
+            </TouchableOpacity>
+          );
+        }
+      )}
     </View>
   );
 };
 
 export { PikerImage };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 24,
+    backgroundColor: "grey",
+  },
+  contentContainer: {
+    flex: 1,
+    alignItems: "center",
+  },
+});
