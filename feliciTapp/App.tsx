@@ -20,6 +20,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 const Client = new QueryClient();
 
 export default function App() {
+
   const [fontsLoaded, fontError] = useFonts({
     "Abel-Regular": require("./assets/fonts/Abel-Regular.ttf"),
     "Academic M54": require("./assets/fonts/Academic M54.ttf"),
@@ -681,7 +682,6 @@ export default function App() {
     usuzileft: require("./assets/fonts/usuzileft.ttf"),
     usuzisemital: require("./assets/fonts/usuzisemital.ttf"),
     usuzi: require("./assets/fonts/usuzi.ttf"),
-    "VTC- GarageSaleOutlined": require("./assets/fonts/VTC- GarageSaleOutlined.ttf"),
     "VTC-GarageSale": require("./assets/fonts/VTC-GarageSale.ttf"),
     "VTC-GarageSaleOutlined": require("./assets/fonts/VTC-GarageSaleOutlined.otf"),
     "WalterTurncoat-Regular": require("./assets/fonts/WalterTurncoat-Regular.ttf"),

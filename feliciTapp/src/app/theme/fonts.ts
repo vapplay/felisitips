@@ -641,7 +641,6 @@ export const Fonts_list = [
   "usuzileft",
   "usuzisemital",
   "usuzi",
-  "VTC- GarageSaleOutlined",
   "VTC-GarageSale",
   "VTC-GarageSaleOutlined",
   "VTC-GarageSale",

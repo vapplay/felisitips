@@ -1,39 +1,47 @@
 {
   "expo": {
     "name": "felicitips",
-    "slug": "felicitips",
-    "version": "1.0.0",
+    "slug": "feliciTapp",
+    "version": "1.1.0",
     "orientation": "portrait",
     "icon": "./assets/icon2.png",
     "userInterfaceStyle": "light",
     "plugins": [
-      "expo-image-picker",
-      [
-        "expo-notifications",
-        {
-          "icon": "./local/assets/notification-icon.png",
-          "color": "#ffdd00",
-          "sounds": ["./local/assets/audio/notification-sound.wav"]
-        }
-      ]
+      "expo-image-picker"
     ],
-    "splash": {
-      "image": "./assets/splash1.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true
     },
     "android": {
+      "package": "com.vapplay.felicitips",
+      "versionCode": 2,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "7442ef37-d949-49bd-9dc3-648978367944"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/7442ef37-d949-49bd-9dc3-648978367944"
     }
+  },
+  "react-native-google-mobile-ads": {
+    "android_app_id": "ca-app-pub-7428378349248082~1886066114"
   }
 }

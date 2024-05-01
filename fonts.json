@@ -657,7 +657,6 @@
   "usuzileft": "require(\"./assets/fonts/usuzileft.ttf\")",
   "usuzisemital": "require(\"./assets/fonts/usuzisemital.ttf\")",
   "usuzi": "require(\"./assets/fonts/usuzi.ttf\")",
-  "VTC- GarageSaleOutlined": "require(\"./assets/fonts/VTC- GarageSaleOutlined.ttf\")",
   "VTC-GarageSale": "require(\"./assets/fonts/VTC-GarageSale.ttf\")",
   "VTC-GarageSaleOutlined": "require(\"./assets/fonts/VTC-GarageSaleOutlined.otf\")",
   "WalterTurncoat-Regular": "require(\"./assets/fonts/WalterTurncoat-Regular.ttf\")",
