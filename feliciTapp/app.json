@@ -6,25 +6,20 @@
     "orientation": "portrait",
     "icon": "./assets/icon2.png",
     "userInterfaceStyle": "light",
-    "plugins": [
-      "expo-image-picker"
-    ],
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "plugins": ["expo-image-picker"],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
     "android": {
+      "googleServicesFile": "./google-services.json",
       "package": "com.vapplay.felicitips",
       "versionCode": 2,
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/icon2.png",
         "backgroundColor": "#ffffff"
       },
-      "permissions": [
-        "android.permission.RECORD_AUDIO"
-      ]
+      "permissions": ["android.permission.RECORD_AUDIO"]
     },
     "web": {
       "favicon": "./assets/favicon.png"

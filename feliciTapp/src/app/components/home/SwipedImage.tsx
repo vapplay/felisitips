@@ -10,7 +10,8 @@ import React, { memo, useEffect, useState } from "react";
 import { PikerImage } from "../screens";
 import { CustomModal } from "../customs";
 import { useDispatch, useSelector } from "react-redux";
-import { addImage } from "../../redux/useImageStorage";
+import { addImage, deleteSwipedImage } from "../../redux/useImageStorage";
+import { AntDesign } from "@expo/vector-icons";
 
 const TAMANO_CUADRADO = 200; // Ajusta el tamaño del cuadrado aquí
 const Epacing = {
@@ -25,10 +26,15 @@ export const SwipedImage = memo(() => {
 
   const dispatcher = useDispatch();
 
-  const imgArray = useSelector((state: any) => state.swiperSlice.images);
+  const imgArray = useSelector((state: any) => state.swiper?.images);
 
   const [modalPiker, setModalPiker] = useState(false);
   const [image, setImage] = useState("");
+
+  const deleteImage = (item: string) => {
+    dispatcher(deleteSwipedImage(item));
+    return null;
+  };
 
   useEffect(() => {
     if (image !== "") {
@@ -57,7 +63,7 @@ export const SwipedImage = memo(() => {
         decelerationRate={0}
         scrollEventThrottle={16}
         data={imgArray?.slice(0, 7) ?? []}
-        keyExtractor={(item, index) => index.toString()}
+        keyExtractor={(item, index) => index?.toString()}
         renderItem={({ item, index }) => {
           const position = Animated.subtract(index * TAMANO_CUADRADO, scrollX);
           const isDisappearing = -TAMANO_CUADRADO;
@@ -89,6 +95,21 @@ export const SwipedImage = memo(() => {
                   transform: [{ scale: scaleValue }],
                 }}
               >
+                {item !== 1 && (
+                  <TouchableOpacity
+                    onPress={() => deleteImage(item)}
+                    style={{
+                      position: "absolute",
+                      zIndex: 2,
+                      left: 0,
+                      top: 0,
+                      marginTop: 5,
+                      marginLeft: 5,
+                    }}
+                  >
+                    <AntDesign name="closecircle" size={24} color="white" />
+                  </TouchableOpacity>
+                )}
                 {item === 1 ? (
                   <Text
                     style={{
@@ -120,7 +141,15 @@ export const SwipedImage = memo(() => {
       />
 
       <CustomModal isOpen={modalPiker} onClose={() => setModalPiker(false)}>
-        <PikerImage onChange={(file: string) => setImage(String(file))} />
+        <PikerImage
+          onChange={(file: string) => setImage(String(file)) as any}
+          openSheet={function (even: boolean): void {
+            throw new Error("Function not implemented.");
+          }}
+          closeModal={function (): void {
+            throw new Error("Function not implemented.");
+          }}
+        />
       </CustomModal>
     </View>
   );

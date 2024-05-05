@@ -1,11 +1,11 @@
-import * as Notifications from "expo-notifications";
+/* import * as Notifications from "expo-notifications";
 import { useDispatch, useSelector } from "react-redux";
 import { changePhraseIndex } from "../redux/changeThemeSlice";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 
-/* export const useLocalNotifications = () => {
+ export const useLocalNotifications = () => {
   const dispatch = useDispatch();
   const getData = async () => {
     const { data } = await axios.get(
@@ -62,11 +62,11 @@ import { useEffect, useState } from "react";
       }
     }
   }, [data, isLoading]);
-}; */
+}; 
 
 export const useLocalNotifications = () => {
   const dispatch = useDispatch();
-  const [currentIndex, setCurrentIndex] = useState(0); // Estado para almacenar el índice actual
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   const getData = async () => {
     const { data } = await axios.get(
@@ -189,3 +189,98 @@ async function main() {
 }
 
 main();
+ */
+
+import * as Notifications from "expo-notifications";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
+
+// Función para solicitar permisos para enviar notificaciones
+async function askForNotificationPermission() {
+  const { status } = await Notifications.getPermissionsAsync();
+  if (status !== "granted") {
+    const { status: newStatus } = await Notifications.requestPermissionsAsync();
+    return newStatus === "granted";
+  }
+  return true;
+}
+
+// Función para obtener las frases de una fuente externa
+const getPhrases = async () => {
+  const response = await axios.get(
+    "https://felisitips-back.onrender.com/get-phrase"
+  );
+  return response.data;
+};
+
+// Función para programar notificaciones
+const scheduleDailyNotifications = async (
+  phrases: any,
+  startIndex: number,
+  userName: string
+) => {
+  const currentDate = new Date();
+
+  // Programar una notificación diaria por 10 días
+  for (let i = 0; i < 10; i++) {
+    const notificationDate = new Date(currentDate);
+    notificationDate.setDate(currentDate.getDate() + i);
+    notificationDate.setHours(10, 0, 0, 0); // Programar a las 10 de la mañana
+
+    const phrase = phrases[startIndex];
+
+    await Notifications.scheduleNotificationAsync({
+      content: {
+        title: `Hola ${userName}, frase del día`,
+        body: phrase.phrase,
+        data: {
+          id: phrase.id,
+        },
+      },
+      trigger: {
+        date: notificationDate,
+      },
+    });
+
+    // Avanzar el índice, asegurando que no se exceda el número total de frases
+    startIndex = (startIndex + 1) % phrases.length;
+  }
+
+  // Guardar el índice actualizado en el almacenamiento local
+  await AsyncStorage.setItem("notificationIndex", String(startIndex));
+};
+
+// Gancho para programar notificaciones al cargar el componente
+export const useDailyNotifications = (userName: string = "") => {
+  const [startIndex, setStartIndex] = useState(0);
+
+  // Obtener el índice inicial del almacenamiento local
+  useEffect(() => {
+    const fetchInitialIndex = async () => {
+      const storedIndex = await AsyncStorage.getItem("notificationIndex");
+      setStartIndex(storedIndex ? parseInt(storedIndex) : 0);
+    };
+    fetchInitialIndex();
+  }, []);
+
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["phrases"],
+    queryFn: getPhrases,
+  });
+
+  // Programar notificaciones cuando se obtengan las frases
+  useEffect(() => {
+    if (!isLoading && data) {
+      (async () => {
+        const permissionGranted = await askForNotificationPermission();
+        if (permissionGranted) {
+          await scheduleDailyNotifications(data, startIndex, userName);
+        } else {
+          console.log("Permiso para notificaciones denegado");
+        }
+      })();
+    }
+  }, [data, isLoading]);
+};

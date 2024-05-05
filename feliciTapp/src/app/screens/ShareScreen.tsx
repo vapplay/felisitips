@@ -100,7 +100,8 @@ const ShareScreen = ({ route, navigation }: any) => {
   } = useSelector((state: any) => state);
 
   const { backgroundImage } = useSelector((state: any) => state.changeTheme);
-  const imgArray = useSelector((state: any) => state.swiperSlice.images);
+  const imgArray = useSelector((state: any) => state.swiper?.images);
+
   const ref = useRef<any>();
 
   const Share = () => {
@@ -160,7 +161,6 @@ const ShareScreen = ({ route, navigation }: any) => {
       toValue: 0.9,
       friction: 9,
       tension: 4,
-
       useNativeDriver: true,
     }).start();
   };

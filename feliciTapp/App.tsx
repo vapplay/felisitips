@@ -5,21 +5,36 @@ import * as SplashScreen from "expo-splash-screen";
 
 //navigation
 import { NavigationProvider } from "./src/app/routes";
+import { PersistGate } from "redux-persist/integration/react";
 
 // redux
 import { Provider } from "react-redux";
-import store from "./src/app/redux/store";
-import { useCallback } from "react";
+import { store, persistor } from "./src/app/redux/store";
+import { useCallback, useEffect, useState } from "react";
 import { useFonts } from "expo-font";
 import { View } from "react-native";
 
 // paper
 import { PaperProvider } from "react-native-paper";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { useAnuncios, useNotification } from "./src/app/hook";
+
 // react query
 const Client = new QueryClient();
 
 export default function App() {
+  // useNotification();
+
+  const { interstitial, interstitialLoaded } = useAnuncios();
+
+  const [adsState, setAdsState] = useState(true);
+
+  useEffect(() => {
+    if (interstitialLoaded && adsState) {
+      interstitial.show();
+      setAdsState(false);
+    }
+  }, [interstitialLoaded]);
 
   const [fontsLoaded, fontError] = useFonts({
     "Abel-Regular": require("./assets/fonts/Abel-Regular.ttf"),
@@ -701,16 +716,20 @@ export default function App() {
     return null;
   }
 
+  // load adds
+
   return (
     <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
-      <Provider store={store}>
-        <PaperProvider>
-          <QueryClientProvider client={Client}>
-            <NavigationProvider />
-            <StatusBar style="auto" />
-          </QueryClientProvider>
-        </PaperProvider>
-      </Provider>
+      <PersistGate persistor={persistor}>
+        <Provider store={store}>
+          <PaperProvider>
+            <QueryClientProvider client={Client}>
+              <NavigationProvider />
+              <StatusBar style="auto" />
+            </QueryClientProvider>
+          </PaperProvider>
+        </Provider>
+      </PersistGate>
     </View>
   );
 }

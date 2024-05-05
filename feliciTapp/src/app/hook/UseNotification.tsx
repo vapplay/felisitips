@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import messaging from "@react-native-firebase/messaging";
 
-export const useNotification = () => {
+export const useNotification = () => {// this is a faction for  push notification by firebase  <==
   async function requestPermission() {
     try {
       const authStatus = await messaging().requestPermission();

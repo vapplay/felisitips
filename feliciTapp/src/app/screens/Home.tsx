@@ -22,7 +22,8 @@ import Toast from "react-native-toast-message";
 
 //  icons
 import { Feather } from "@expo/vector-icons";
-import { useLocalNotifications } from "../hook";
+import { useDailyNotifications } from "../hook/useLocalNotifications";
+import { BannerAds } from "../hook";
 
 export const Home = ({ route, navigation }: any) => {
   const {
@@ -34,7 +35,7 @@ export const Home = ({ route, navigation }: any) => {
 
   const [opeTopMenu, setOpeTopMenu] = useState(false);
 
-  useLocalNotifications();
+  useDailyNotifications(userName);
   const disPatcher = useDispatch();
 
   const captureScreen = () => {
@@ -44,7 +45,6 @@ export const Home = ({ route, navigation }: any) => {
   const handleFavorite = () => {
     try {
       disPatcher(addFavoritePhrase(randomPhrase));
-
       Toast.show({
         type: "success",
         text2: "Agregado a favoritos",
@@ -71,7 +71,7 @@ export const Home = ({ route, navigation }: any) => {
 
           {opeTopMenu && (
             <View style={{ position: "absolute", marginTop: 40, zIndex: 2 }}>
-              <CustomInfoModal />
+              <CustomInfoModal state={setOpeTopMenu} />
             </View>
           )}
 
@@ -158,6 +158,7 @@ export const Home = ({ route, navigation }: any) => {
             })}
           </View>
         </View>
+        <BannerAds />
       </ImageBackground>
     </CustomScreen>
   );

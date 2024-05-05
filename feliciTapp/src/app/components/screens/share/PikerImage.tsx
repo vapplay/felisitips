@@ -83,7 +83,7 @@ const PikerImage = ({
   return (
     <View style={{ flexDirection: "row", gap: 50, paddingTop: 20 }}>
       {items(launchCamera, launchFiles, isSharing, handleOpenSheet).map(
-        (e, i) => {
+        (e:any, i) => {
           return (
             <TouchableOpacity
               style={{ alignItems: "center", gap: 5 }}
