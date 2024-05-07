@@ -84,7 +84,7 @@ const CustomInfoModal = ({ state }: any) => {
             onPress={() => {
               item.link === null
                 ? onShare()
-                : item.name === "Contactanos"
+                : item.name === "Contáctenos"
                 ? Linking.openURL(item.link)
                 : navigation.navigate("web", { uri: item.link });
               state(false);

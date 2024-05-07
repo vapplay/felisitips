@@ -23,7 +23,7 @@ import { useAnuncios, useNotification } from "./src/app/hook";
 const Client = new QueryClient();
 
 export default function App() {
-  // useNotification();
+   useNotification();
 
   const { interstitial, interstitialLoaded } = useAnuncios();
 
@@ -31,7 +31,7 @@ export default function App() {
 
   useEffect(() => {
     if (interstitialLoaded && adsState) {
-      interstitial.show();
+      interstitial?.show();
       setAdsState(false);
     }
   }, [interstitialLoaded]);

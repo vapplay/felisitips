@@ -1,5 +1,6 @@
 import {
   ImageBackground,
+  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -35,16 +36,17 @@ export const Home = ({ route, navigation }: any) => {
 
   const [opeTopMenu, setOpeTopMenu] = useState(false);
 
-  useDailyNotifications(userName);
+  const { lasPhrase } = useDailyNotifications(userName as any);
+  const currenPhrase = lasPhrase ? lasPhrase : randomPhrase;
   const disPatcher = useDispatch();
 
   const captureScreen = () => {
-    navigation.navigate("ShareScreen");
+    navigation.navigate("ShareScreen", { randomPhrase: currenPhrase });
   };
 
   const handleFavorite = () => {
     try {
-      disPatcher(addFavoritePhrase(randomPhrase));
+      disPatcher(addFavoritePhrase(currenPhrase));
       Toast.show({
         type: "success",
         text2: "Agregado a favoritos",
@@ -52,115 +54,140 @@ export const Home = ({ route, navigation }: any) => {
     } catch (error) {}
   };
 
+  console.log(currenPhrase);
+
   return (
-    <CustomScreen theme={theme}>
-      <ImageBackground source={{ uri: backgroundImage }} style={styles.body}>
-        <View style={styles.heder}>
-          <TouchableOpacity
-            onPress={() => setOpeTopMenu((prev) => !prev)}
-            style={[
-              {
-                backgroundColor: theme.colors.btn,
-                padding: 5,
-                borderRadius: 10,
-              },
-            ]}
-          >
-            <Feather name="user" size={20} color={"#ffffff"} />
-          </TouchableOpacity>
+    <ScrollView style={{ flex: 1 }}>
+      {opeTopMenu && (
+        <TouchableOpacity
+          onPress={() => {
+            setOpeTopMenu(false);
+          }}
+          style={{
+            width: "100%",
+            height: "100%",
+            position: "absolute",
+            zIndex: 2,
+          }}
+        />
+      )}
 
-          {opeTopMenu && (
-            <View style={{ position: "absolute", marginTop: 40, zIndex: 2 }}>
-              <CustomInfoModal state={setOpeTopMenu} />
+      {opeTopMenu && (
+        <View
+          style={{
+            position: "absolute",
+            marginTop: 90,
+            zIndex: 100,
+            marginLeft: 45,
+          }}
+        >
+          <CustomInfoModal state={setOpeTopMenu} />
+        </View>
+      )}
+
+      <CustomScreen theme={theme}>
+        <ImageBackground source={{ uri: backgroundImage }} style={styles.body}>
+          <View style={styles.heder}>
+            <TouchableOpacity
+              onPress={() => setOpeTopMenu((prev) => !prev)}
+              style={[
+                {
+                  backgroundColor: theme.colors.btn,
+                  padding: 5,
+                  borderRadius: 10,
+                },
+              ]}
+            >
+              <Feather name="user" size={20} color={"#ffffff"} />
+            </TouchableOpacity>
+
+            <Text
+              style={[
+                styles.name,
+                {
+                  backgroundColor: theme.colors.btn,
+                  color: theme.colors.btn_icon,
+                },
+              ]}
+            >
+              {"Hola " + userName + " !"}
+            </Text>
+          </View>
+
+          <View style={styles.phraseContainer}>
+            <Text
+              style={[
+                styles.textPhrase,
+                { fontFamily: theme.defaultFont, paddingHorizontal: 3 },
+              ]}
+            >{`${"hola"} ${userName}, hoy recuerda que... \n`}</Text>
+            <Text
+              style={[styles.textPhrase, { fontFamily: theme.defaultFont }]}
+            >{`${currenPhrase?.phrase}`}</Text>
+
+            <Text
+              style={[
+                styles.textPhrase,
+                { fontFamily: theme.defaultFont, marginTop: 10 },
+              ]}
+            >{`- ${currenPhrase?.by} -`}</Text>
+          </View>
+
+          <View>
+            <SwipedImage />
+          </View>
+
+          <View style={styles.bottom}>
+            <View
+              style={[
+                styles.itemsThemes,
+                { justifyContent: "space-around", marginBottom: 90 },
+              ]}
+            >
+              {BottomIcons(
+                navigation,
+                theme,
+                handleFavorite,
+                captureScreen
+              ).bloque_2.map((item, index) => {
+                return (
+                  <TouchableOpacity
+                    style={[
+                      styles.bottomIcon,
+                      { backgroundColor: theme.colors.btn, padding: 10 },
+                    ]}
+                    key={index}
+                    onPress={item.action}
+                  >
+                    {item.icon}
+                  </TouchableOpacity>
+                );
+              })}
             </View>
-          )}
 
-          <Text
-            style={[
-              styles.name,
-              {
-                backgroundColor: theme.colors.btn,
-                color: theme.colors.btn_icon,
-              },
-            ]}
-          >
-            {"Hola " + userName + " !"}
-          </Text>
-        </View>
-
-        <View style={styles.phraseContainer}>
-          <Text
-            style={[
-              styles.textPhrase,
-              { fontFamily: theme.defaultFont, paddingHorizontal: 3 },
-            ]}
-          >{`${"hola"} ${userName}, hoy recuerda que... \n`}</Text>
-          <Text
-            style={[styles.textPhrase, { fontFamily: theme.defaultFont }]}
-          >{`${randomPhrase?.phrase}`}</Text>
-
-          <Text
-            style={[
-              styles.textPhrase,
-              { fontFamily: theme.defaultFont, marginTop: 10 },
-            ]}
-          >{`- ${randomPhrase?.by} -`}</Text>
-        </View>
-
-        <View>
-          <SwipedImage />
-        </View>
-
-        <View style={styles.bottom}>
-          <View
-            style={[
-              styles.itemsThemes,
-              { justifyContent: "space-around", marginBottom: 90 },
-            ]}
-          >
-            {BottomIcons(
-              navigation,
-              theme,
-              handleFavorite,
-              captureScreen
-            ).bloque_2.map((item, index) => {
-              return (
-                <TouchableOpacity
-                  style={[
-                    styles.bottomIcon,
-                    { backgroundColor: theme.colors.btn, padding: 10 },
-                  ]}
-                  key={index}
-                  onPress={item.action}
-                >
-                  {item.icon}
-                </TouchableOpacity>
-              );
-            })}
+            <CustomAnimateLottieIcon />
+            <View style={styles.itemsThemes}>
+              {BottomIcons(navigation, theme).bloque_1.map((item, index) => {
+                return (
+                  <TouchableOpacity
+                    onPress={item.action}
+                    key={index}
+                    style={[
+                      styles.bottomIcon,
+                      { backgroundColor: theme.colors.btn },
+                    ]}
+                  >
+                    {item?.icon}
+                    <Text style={[{ color: iconColor }]}>{item.name}</Text>
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
           </View>
-
-          <CustomAnimateLottieIcon />
-          <View style={styles.itemsThemes}>
-            {BottomIcons(navigation, theme).bloque_1.map((item, index) => {
-              return (
-                <TouchableOpacity
-                  onPress={item.action}
-                  key={index}
-                  style={[
-                    styles.bottomIcon,
-                    { backgroundColor: theme.colors.btn },
-                  ]}
-                >
-                  {item?.icon}
-                  <Text style={[{ color: iconColor }]}>{item.name}</Text>
-                </TouchableOpacity>
-              );
-            })}
-          </View>
-        </View>
-        <BannerAds />
-      </ImageBackground>
-    </CustomScreen>
+          <BannerAds />
+        </ImageBackground>
+      </CustomScreen>
+    </ScrollView>
   );
 };
 

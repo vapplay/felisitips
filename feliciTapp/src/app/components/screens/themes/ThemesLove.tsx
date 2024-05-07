@@ -1,7 +1,5 @@
 import {
   FlatList,
-  Image,
-  ImageBackground,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -10,10 +8,7 @@ import {
 } from "react-native";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  changePhrase,
-  changeThemeBackgroundImage,
-} from "../../../redux/changeThemeSlice";
+import { changePhrase } from "../../../redux/changeThemeSlice";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 import LottieView from "lottie-react-native";
 import moment from "moment";
@@ -38,8 +33,8 @@ export const ThemesLove = ({ navigation }: any) => {
     dispatch(removeFavoritePhrase(id));
   };
 
-  const share = () => {
-    return navigation.navigate("ShareScreen");
+  const share = (item: any) => {
+    navigation.navigate("ShareScreen", { randomPhrase: item });
   };
 
   return (
@@ -75,9 +70,15 @@ export const ThemesLove = ({ navigation }: any) => {
                 style={styles.itemContainer}
               >
                 <View style={styles.img}>
-                  <Text style={styles.text} numberOfLines={3}>
-                    {item?.phrase}
-                  </Text>
+                  <View style={{ gap: 10 }}>
+                    <Text style={styles.text} numberOfLines={3}>
+                      {item?.phrase}
+                    </Text>
+
+                    <Text style={styles.text} numberOfLines={3}>
+                      {item?.by}
+                    </Text>
+                  </View>
 
                   <View
                     style={{
@@ -97,7 +98,7 @@ export const ThemesLove = ({ navigation }: any) => {
                         <AntDesign name="heart" size={18} color="black" />
                       </TouchableOpacity>
 
-                      <TouchableOpacity onPress={share}>
+                      <TouchableOpacity onPress={() =>  share(item)}>
                         <Ionicons
                           name="share-outline"
                           size={18}
@@ -131,6 +132,7 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(95, 95, 95, 0.07)",
     alignSelf: "center",
     paddingHorizontal: 10,
+    minWidth: "95%",
   },
   text: {
     color: "black",

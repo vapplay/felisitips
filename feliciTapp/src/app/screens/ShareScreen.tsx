@@ -93,9 +93,8 @@ const items_options = (
 ];
 
 const ShareScreen = ({ route, navigation }: any) => {
-  const { theme, userName }: ThemeType = route?.params;
+  const { theme, userName, randomPhrase }: ThemeType = route?.params;
   const {
-    changeTheme: { randomPhrase },
     Dedicate: { name },
   } = useSelector((state: any) => state);
 
@@ -239,6 +238,13 @@ const ShareScreen = ({ route, navigation }: any) => {
                       },
                     ]}
                   >{`${randomPhrase.phrase}`}</Text>
+
+                  <Text
+                    style={[
+                      styles.textPhrase,
+                      { fontFamily: theme.defaultFont, marginTop: 10 },
+                    ]}
+                  >{`- ${randomPhrase?.by} -`}</Text>
                 </View>
 
                 <View style={{ alignSelf: "center" }}>

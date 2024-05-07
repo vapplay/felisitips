@@ -9,10 +9,12 @@ export type RoutesListType = {
 export type ThemeType = {
   theme: themeTypes;
   userName?: string;
-  randomPhrase?: {
-    id: string;
-    phrase: string;
-  };
+  randomPhrase?:
+    | {
+        id: string;
+        phrase: string;
+      }
+    | any;
 };
 
 export type themeTypes = typeof theme;
