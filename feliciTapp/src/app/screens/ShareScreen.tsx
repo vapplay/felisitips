@@ -49,48 +49,48 @@ const items_options = (
   handleOpenModal2: actionsType,
   handleDedicate: any
 ) => [
-  {
-    name: "Colores",
-    icon: {
-      component: Entypo,
-      name: "colours",
+    {
+      name: "Colores",
+      icon: {
+        component: Entypo,
+        name: "colours",
+      },
+      action: () => {
+        openModal(1);
+      },
     },
-    action: () => {
-      openModal(1);
-    },
-  },
 
-  {
-    name: "Dedicar",
-    icon: {
-      component: Ionicons,
-      name: "gift-outline",
+    {
+      name: "Dedicar",
+      icon: {
+        component: Ionicons,
+        name: "gift-outline",
+      },
+      action: () => {
+        handleDedicate();
+      },
     },
-    action: () => {
-      handleDedicate();
+    {
+      name: "Foto",
+      icon: {
+        component: MaterialIcons,
+        name: "add-a-photo",
+      },
+      action: () => {
+        openModal(3);
+      },
     },
-  },
-  {
-    name: "Foto",
-    icon: {
-      component: MaterialIcons,
-      name: "add-a-photo",
+    {
+      name: null,
+      icon: {
+        component: Feather,
+        name: "more-horizontal",
+      },
+      action: () => {
+        handleOpenModal2();
+      },
     },
-    action: () => {
-      openModal(3);
-    },
-  },
-  {
-    name: null,
-    icon: {
-      component: Feather,
-      name: "more-horizontal",
-    },
-    action: () => {
-      handleOpenModal2();
-    },
-  },
-];
+  ];
 
 const ShareScreen = ({ route, navigation }: any) => {
   const { theme, userName, randomPhrase }: ThemeType = route?.params;
@@ -225,9 +225,8 @@ const ShareScreen = ({ route, navigation }: any) => {
                         fontSize: fontSize,
                       },
                     ]}
-                  >{`${"hola"} ${
-                    name !== "" ? name : userName
-                  }, hoy recuerda que... \n`}</Text>
+                  >{`${"hola"} ${name !== "" ? name : userName
+                    }, hoy recuerda que... \n`}</Text>
                   <Text
                     style={[
                       styles.textPhrase,
@@ -242,7 +241,7 @@ const ShareScreen = ({ route, navigation }: any) => {
                   <Text
                     style={[
                       styles.textPhrase,
-                      { fontFamily: theme.defaultFont, marginTop: 10 },
+                      { fontFamily: SelectFont, color: selectColor, fontSize: fontSize, marginTop: 10 },
                     ]}
                   >{`- ${randomPhrase?.by} -`}</Text>
                 </View>

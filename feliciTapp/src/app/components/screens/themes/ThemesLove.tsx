@@ -51,7 +51,7 @@ export const ThemesLove = ({ navigation }: any) => {
             loop
           />
 
-          <Text style={styles.textNot}>No has agregado nada a favoritos</Text>
+          <Text style={styles.textNot}>Tu lista de favoritos está vacía. Animate y empieza a coleccionar!</Text>
         </View>
       ) : (
         <FlatList
@@ -98,7 +98,7 @@ export const ThemesLove = ({ navigation }: any) => {
                         <AntDesign name="heart" size={18} color="black" />
                       </TouchableOpacity>
 
-                      <TouchableOpacity onPress={() =>  share(item)}>
+                      <TouchableOpacity onPress={() => share(item)}>
                         <Ionicons
                           name="share-outline"
                           size={18}

@@ -7,7 +7,7 @@ import { dedicateAdd } from "../redux/DedicateSlice";
 import { useDispatch } from "react-redux";
 import Toast from "react-native-toast-message";
 
-const DedIcateScreen = ({ route , navigation }: any) => {
+const DedIcateScreen = ({ route, navigation }: any) => {
   const { theme }: ThemeType = route?.params;
 
   const [userName, setUserName] = useState<string>("");
@@ -17,21 +17,21 @@ const DedIcateScreen = ({ route , navigation }: any) => {
       userName.trim()
     );
 
-const  dispatcher  = useDispatch()
+  const dispatcher = useDispatch()
 
-    
+
   const onChangeData = (text: string) => {
     setUserName(text);
   };
 
   const next = () => {
     if (validateName) {
-        dispatcher(dedicateAdd(userName.trim()))
-        navigation.goBack()
+      dispatcher(dedicateAdd(userName.trim()))
+      navigation.goBack()
     } else {
       Toast.show({
         type: "error",
-        text2: "Escribe tu nombre 👋",
+        text2: " Escribe su nombre  :) 👋",
       });
     }
   };

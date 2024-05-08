@@ -42,7 +42,7 @@ export const BottomIcons = (
     },
     {
       name: "share",
-      icon: <Feather name="share" size={24} color={iconColor} />,
+      icon: <Feather name="share" size={27} color={"#FFFF00"} />,
       action: () => {
         captureScreen();
       },

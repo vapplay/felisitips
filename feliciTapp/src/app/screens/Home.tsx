@@ -51,7 +51,7 @@ export const Home = ({ route, navigation }: any) => {
         type: "success",
         text2: "Agregado a favoritos",
       });
-    } catch (error) {}
+    } catch (error) { }
   };
 
   console.log(currenPhrase);
@@ -95,10 +95,13 @@ export const Home = ({ route, navigation }: any) => {
                   backgroundColor: theme.colors.btn,
                   padding: 5,
                   borderRadius: 10,
+                  borderWidth: 2,
+                  borderColor: '#FFFF00',
+                  margin: -3,
                 },
               ]}
             >
-              <Feather name="user" size={20} color={"#ffffff"} />
+              <Feather name="user" size={21} color={"#FFFF00"} />
             </TouchableOpacity>
 
             <Text

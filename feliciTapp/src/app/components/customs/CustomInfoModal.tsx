@@ -18,7 +18,7 @@ const stylesIcons = {
 };
 const items = [
   {
-    name: "Compartir",
+    name: "Compartir App",
     icons: (
       <Ionicons
         name="share-outline"
@@ -85,8 +85,8 @@ const CustomInfoModal = ({ state }: any) => {
               item.link === null
                 ? onShare()
                 : item.name === "Contáctenos"
-                ? Linking.openURL(item.link)
-                : navigation.navigate("web", { uri: item.link });
+                  ? Linking.openURL(item.link)
+                  : navigation.navigate("web", { uri: item.link });
               state(false);
             }}
           >
