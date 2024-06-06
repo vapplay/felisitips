@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "713315848291",
+    "project_id": "felicitips-2a2f6",
+    "storage_bucket": "felicitips-2a2f6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:713315848291:android:ed0b1e2d1b2bb8ecb9a856",
+        "android_client_info": {
+          "package_name": "com.vapplay.felicitips"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDaq5T46uhVxG4QxIzcaO7dWP8K6bLzhdg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
