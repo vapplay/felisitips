@@ -1,17 +1,33 @@
+import React, { useEffect } from "react";
 import {
   FlatList,
   Image,
   StyleSheet,
   TouchableOpacity,
   View,
+  Text,
 } from "react-native";
-import React from "react";
-import { themeConfig } from "../../../theme/themeConfig";
 import { useDispatch } from "react-redux";
 import { changeThemeBackgroundImage } from "../../../redux/changeThemeSlice";
+import { getData } from "../../../fixures/getData";
+import { useQuery } from "@tanstack/react-query";
+import LoadScreen from "../../../screens/LoadScreen";
 
 export const ThemesGrid = ({ navigation }: any) => {
-  const { data } = themeConfig?.themes;
+  const { data, error, isLoading, refetch } = useQuery({
+    queryKey: ["get-theme"],
+    queryFn: async () => await getData("get-theme"),
+  });
+  /// todo =====  real data time
+  useEffect(() => {
+    const interval = setInterval(() => {
+      refetch();
+    }, 10000);
+
+    return () => clearInterval(interval);
+  }, [refetch]);
+
+  /// todo =====  real data time
 
   const dispatch = useDispatch();
 
@@ -20,24 +36,39 @@ export const ThemesGrid = ({ navigation }: any) => {
     navigation.goBack();
   };
 
+  if (isLoading) {
+    return <LoadScreen />;
+  }
+
   return (
     <View>
       <FlatList
         numColumns={3}
+        showsVerticalScrollIndicator={true}
+        indicatorStyle="black"
         contentContainerStyle={{
+          flexGrow: 1,
           justifyContent: "center",
           alignItems: "center",
           width: "100%",
-          gap: 10,
+          gap: 15,
+          paddingBottom: 220,
         }}
         columnWrapperStyle={{
           gap: 10,
+          justifyContent: "space-between",
+          paddingHorizontal: 10,
+
         }}
-        data={data}
+        data={data?.reverse()}
         keyExtractor={(item) => String(item.id)}
         renderItem={({ item }) => {
           return (
-            <TouchableOpacity onPress={() => action(item.url)}>
+            <TouchableOpacity
+              onPress={() => action(item.url)}
+              //style={{ gap: 5 }}
+              style={{ marginBottom: 15 }}
+            >
               <View style={styles.img}>
                 <Image
                   resizeMode="cover"
@@ -45,6 +76,16 @@ export const ThemesGrid = ({ navigation }: any) => {
                   source={{ uri: item.url }}
                 />
               </View>
+              <Text
+                style={{
+                  textAlign: "center",
+                  fontSize: 12,
+                  textTransform: "capitalize",
+                  fontWeight: "bold",
+                }}
+              >
+                {item.name}
+              </Text>
             </TouchableOpacity>
           );
         }}

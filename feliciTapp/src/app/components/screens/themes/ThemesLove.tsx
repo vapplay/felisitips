@@ -13,6 +13,7 @@ import { AntDesign, Ionicons } from "@expo/vector-icons";
 import LottieView from "lottie-react-native";
 import moment from "moment";
 import { removeFavoritePhrase } from "../../../redux/FavoritePhraseSlice";
+import { changeLove } from "../../../redux/changeFavorite";
 
 export const ThemesLove = ({ navigation }: any) => {
   const {
@@ -25,7 +26,7 @@ export const ThemesLove = ({ navigation }: any) => {
   const dispatch = useDispatch();
 
   const action = (item: any) => {
-    dispatch(changePhrase(item));
+    dispatch(changeLove(item));
     navigation.goBack();
   };
 
@@ -51,11 +52,13 @@ export const ThemesLove = ({ navigation }: any) => {
             loop
           />
 
-          <Text style={styles.textNot}>Tu lista de favoritos está vacía. Animate y empieza a coleccionar!</Text>
+          <Text style={styles.textNot}>
+            Tu lista de favoritos está vacía. Animate y empieza a coleccionar!
+          </Text>
         </View>
       ) : (
         <FlatList
-          contentContainerStyle={{ gap: 15, paddingBottom: 100 }}
+          contentContainerStyle={{ gap: 15, paddingBottom: 130 }}
           data={Phrases}
           keyExtractor={(item) => String(item.id)}
           renderItem={({ item, index }) => {
@@ -90,7 +93,7 @@ export const ThemesLove = ({ navigation }: any) => {
                     <View
                       style={{
                         flexDirection: "row",
-                        gap: 10,
+                        gap: 20,
                         alignItems: "center",
                       }}
                     >
@@ -101,7 +104,7 @@ export const ThemesLove = ({ navigation }: any) => {
                       <TouchableOpacity onPress={() => share(item)}>
                         <Ionicons
                           name="share-outline"
-                          size={18}
+                          size={20}
                           color="black"
                         />
                       </TouchableOpacity>

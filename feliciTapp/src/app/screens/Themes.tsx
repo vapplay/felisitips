@@ -7,7 +7,7 @@ export function Themes({ route, navigation }: any) {
   const { theme, userName }: ThemeType = route?.params;
   return (
     <CustomScreen theme={theme} modal>
-      <CustomHeader title={"Temas"} theme={theme} />
+      <CustomHeader title={"Temas - Fondos"} theme={theme} />
       <View style={styles.container}>
         <ThemesGrid navigation={navigation} />
       </View>

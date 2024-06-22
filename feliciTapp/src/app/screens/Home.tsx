@@ -30,6 +30,7 @@ export const Home = ({ route, navigation }: any) => {
   const {
     changeTheme: { randomPhrase },
   } = useSelector((state: any) => state);
+  const { favorite } = useSelector((state: any) => state.changeFavorite);
   const { theme, userName }: ThemeType = route?.params;
   const { backgroundImage } = useSelector((state: any) => state.changeTheme);
   const iconColor = theme.colors.btn_icon;
@@ -37,7 +38,8 @@ export const Home = ({ route, navigation }: any) => {
   const [opeTopMenu, setOpeTopMenu] = useState(false);
 
   const { lasPhrase } = useDailyNotifications(userName as any);
-  const currenPhrase = lasPhrase ? lasPhrase : randomPhrase;
+  const phrase = lasPhrase ? lasPhrase : randomPhrase;
+  const currenPhrase = favorite ? favorite : phrase;
   const disPatcher = useDispatch();
 
   const captureScreen = () => {
@@ -51,10 +53,8 @@ export const Home = ({ route, navigation }: any) => {
         type: "success",
         text2: "Agregado a favoritos",
       });
-    } catch (error) { }
+    } catch (error) {}
   };
-
-  console.log(currenPhrase);
 
   return (
     <ScrollView style={{ flex: 1 }}>
@@ -96,7 +96,7 @@ export const Home = ({ route, navigation }: any) => {
                   padding: 5,
                   borderRadius: 10,
                   borderWidth: 2,
-                  borderColor: '#FFFF00',
+                  borderColor: "#FFFF00",
                   margin: -3,
                 },
               ]}
@@ -158,6 +158,7 @@ export const Home = ({ route, navigation }: any) => {
                     style={[
                       styles.bottomIcon,
                       { backgroundColor: theme.colors.btn, padding: 10 },
+                      item?.style,
                     ]}
                     key={index}
                     onPress={item.action}
@@ -212,6 +213,7 @@ const styles = StyleSheet.create({
     width: "100%",
     marginBottom: 30,
     justifyContent: "center",
+    marginTop: 10,
   },
   bottomIcon: {
     flexDirection: "row",

@@ -26,7 +26,9 @@ export const SwipedImage = memo(() => {
 
   const dispatcher = useDispatch();
 
-  const imgArray = useSelector((state: any) => state.swiper?.images);
+  const stateImage = useSelector((state: any) => state.swiper?.images);
+
+  const imgArray = stateImage?.slice(0, 7) ?? [];
 
   const [modalPiker, setModalPiker] = useState(false);
   const [image, setImage] = useState("");
@@ -44,7 +46,7 @@ export const SwipedImage = memo(() => {
   }, [image]);
 
   return (
-    <View>
+    <View style={{ marginVertical: 13 }}>
       <Animated.FlatList
         onScroll={Animated.event(
           [{ nativeEvent: { contentOffset: { x: scrollX } } }],
@@ -62,7 +64,7 @@ export const SwipedImage = memo(() => {
         snapToInterval={TAMANO_CUADRADO}
         decelerationRate={0}
         scrollEventThrottle={16}
-        data={imgArray?.slice(0, 7) ?? []}
+        data={imgArray}
         keyExtractor={(item, index) => index?.toString()}
         renderItem={({ item, index }) => {
           const position = Animated.subtract(index * TAMANO_CUADRADO, scrollX);
@@ -88,7 +90,7 @@ export const SwipedImage = memo(() => {
                   width: TAMANO_CUADRADO,
                   height: TAMANO_CUADRADO,
                   borderRadius: 10,
-                  backgroundColor: "rgba(252, 232, 16, 0.51)",
+                  backgroundColor: "rgba(252, 232, 16, 0.83)",
                   alignItems: "center",
                   justifyContent: "center",
                   opacity: opacityValue,
@@ -113,11 +115,16 @@ export const SwipedImage = memo(() => {
                 {item === 1 ? (
                   <Text
                     style={{
-                      color: "white",
-                      fontWeight: "600",
-                      fontSize: 17,
+                      color: "black",
+                      fontSize: 19,
                       paddingHorizontal: 10,
                       textAlign: "center",
+                      fontWeight: "bold",
+                      shadowColor: "black",
+                      shadowOffset: {
+                        width: 0,
+                        height: 2,
+                      },
                     }}
                   >
                     Agrega una foto de un momento feliz

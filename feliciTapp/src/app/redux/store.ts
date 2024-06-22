@@ -8,11 +8,19 @@ import changeThemeSlice from "./changeThemeSlice";
 import FavoritePhraseSlice from "./FavoritePhraseSlice";
 import DedicateSlice from "./DedicateSlice";
 import swiperSlice from "./useImageStorage";
+import changeFavorite from "./changeFavorite";
 
 const persistConfig = {
   key: "root", // key of the persister  <==
   storage,
-  whitelist: ["userInfo", "FavoritePhrases", "theme", "onboarding", "swiper" , "changeTheme" ],
+  whitelist: [
+    "userInfo",
+    "FavoritePhrases",
+    "theme",
+    "onboarding",
+    "swiper",
+    "changeTheme",
+  ],
 };
 
 const rootReducer = combineReducers({
@@ -23,6 +31,7 @@ const rootReducer = combineReducers({
   FavoritePhrases: FavoritePhraseSlice,
   Dedicate: DedicateSlice,
   swiper: swiperSlice,
+  changeFavorite: changeFavorite,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer); // the persister  faction <-
