@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 
 const getPhrases = async () => {
   const { data } = await axios.get(
-    "https://felisitips-back.onrender.com/get-phrase"
+    "https://felisitips-back-production.up.railway.app/get-phrase"
   );
   return data;
 };

@@ -21,6 +21,8 @@ export const BottomIcons = (
         navigation.navigate("Favorites");
       },
       style: commonStyleBloque1, // NUEVA LINEA: Aplicando estilo común a bloque_1  
+
+
     },
     {
       name: "Temas",

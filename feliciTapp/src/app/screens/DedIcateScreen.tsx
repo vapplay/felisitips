@@ -12,10 +12,8 @@ const DedIcateScreen = ({ route, navigation }: any) => {
 
   const [userName, setUserName] = useState<string>("");
 
-  const validateName =
-    /^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(?:\s+[a-zA-ZÀ-ÿ\u00f1\u00d1]+)*$/.test(
-      userName.trim()
-    );
+  const validateName = true
+
 
   const dispatcher = useDispatch()
 

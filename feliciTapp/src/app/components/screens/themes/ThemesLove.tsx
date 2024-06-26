@@ -58,7 +58,7 @@ export const ThemesLove = ({ navigation }: any) => {
         </View>
       ) : (
         <FlatList
-          contentContainerStyle={{ gap: 15, paddingBottom: 130 }}
+          contentContainerStyle={{ gap: 15, paddingBottom: 200 }}
           data={Phrases}
           keyExtractor={(item) => String(item.id)}
           renderItem={({ item, index }) => {
