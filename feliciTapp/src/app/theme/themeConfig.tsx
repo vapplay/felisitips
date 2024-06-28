@@ -24,7 +24,7 @@ export const themeConfig = {
         {
           id: 3,
           animation: require("../animations/LOTIE3V2.json"),
-          text: "Y gracias por permitirnos recordarte que el propósito de estar en este mundo es “Porque vinimos a ser felices”.",
+          text: "Y gracias por permitirnos recordarte que el propósito de estar en este mundo es “Porque vinimos a ser felices”.\n\n“RECUERDA ACTIVAR LAS NOTIFICACIONES AHORA Y NO TE PIERDAS TU FRASE DIARIA. ¡”",
           textColor: "#F15937",
           backgroundColor: theme.colors.cream,
         },
@@ -74,9 +74,9 @@ export const toastConfig: ToastConfig = {
   error: ({ text1, text2 }: BaseToastProps) => {
     const modifiedText = text2
       ? errorReplacePatterns.reduce(
-          (modified, pattern) => modified.replace(pattern, ""),
-          text2
-        )
+        (modified, pattern) => modified.replace(pattern, ""),
+        text2
+      )
       : "";
 
     return (
@@ -93,9 +93,9 @@ export const toastConfig: ToastConfig = {
   success: ({ text1, text2 }: BaseToastProps) => {
     const modifiedText = text2
       ? errorReplacePatterns.reduce(
-          (modified, pattern) => modified.replace(pattern, ""),
-          text2
-        )
+        (modified, pattern) => modified.replace(pattern, ""),
+        text2
+      )
       : "";
 
     return (
@@ -145,7 +145,7 @@ const style = StyleSheet.create({
   },
 
   text: {
-    color:"rgb(56, 56, 56)",
+    color: "rgb(56, 56, 56)",
     fontSize: 17,
     fontWeight: "500",
   },

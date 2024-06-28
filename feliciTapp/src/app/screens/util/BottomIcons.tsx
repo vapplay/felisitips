@@ -25,7 +25,7 @@ export const BottomIcons = (
 
     },
     {
-      name: "Temas",
+      name: "Temas =)",
       icon: <MaterialIcons name="format-paint" size={24} color={'#FFFF00'} />,
       action: () => {
         navigation.navigate("Themes");
